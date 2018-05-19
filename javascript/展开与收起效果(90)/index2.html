@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>收起和展开效果2</title>
+  <style>
+  body{
+    margin: 0 auto;
+    padding: 0;
+  }
+  #pn{
+    background: #e8e8e8;
+    width: 950px;
+    height: 60px;
+    margin: 0 auto;
+    padding: 5px;
+    text-align: center;
+    height: auto;
+    overflow: hiden;
+  }
+  .content{
+    margin: 0 auto;
+    padding: 10px;
+    width: 950px;
+    background: gray;
+    text-align: center;
+    height: 40px;
+    color: #fff;
+  }
+  </style>
+</head>
+<body>
+   <div id="pn">
+     <h1>欢迎来到慕课网</h1>
+   </div>
+   <div class="content">
+     慕课网欢迎你
+     <br />
+     正文
+   </div>
+  <script>
+     var h = 0;
+     function addH() {
+         if (h < 300) {
+           h+=5;
+           document.getElementById('pn').style.height  = h +'px';
+         } else {
+           return ;
+         }
+         setTimeout('addH()', 30)
+     }
+    window.onload = function showAds() {
+        addH();
+        setTimeout('subH()', 5000);
+    }
+
+    function subH() {
+       if (h>0) {
+         h-=5
+         document.getElementById('pn').style.height = h + 'px'
+       } else  {
+         document.getElementById('pn').style.display = 'none'
+         return
+       }
+       setTimeout('subH()', 30)
+    }
+
+  </script>
+</body>
+</html>
