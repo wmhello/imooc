@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>DOM中的事件</title>
+</head>
+<body>
+
+  <input type="button" id="btn1" value="按钮1">
+  <input type="button" id="btn2" value="按钮2">
+  <input type="button" id="btn3" value="按钮3">
+  <input type="button" id="btn4" value="按钮4">
+
+  <script type="text/javascript">
+     var btn1 = document.getElementById('btn1');
+
+     btn1.addEventListener('click', function() {
+             console.log('事件监听与绑定')
+     }, false);
+
+     var btn3 =  document.getElementById('btn3');
+     btn3.addEventListener('click', showMessage, false);
+     function showMessage(event) {
+       var e = event || window.event;
+       console.log(e.type)
+       var ele = e.target || e.srcElement;
+       console.log(ele);
+       ele.stopPropagation();
+     }
+  </script>
+
+</body>
+</html>

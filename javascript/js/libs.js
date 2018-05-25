@@ -5,15 +5,31 @@
     return document.getElementById(id) || document;
   }
   // 事件绑定
-  var addEvent = function (id,event,callback) {
-    var e = getId(id);
+  var addEvent = function (el,event,callback) {
     // 非IE浏览器  IE>=8
-    if (e.addEventListener) {
-       e.addEventListener(event, callback, false);
+    if (el.addEventListener) {
+       el.addEventListener(event, callback, false);
     }
     // IE浏览器, IE<8
-   if (e.attachEvent) {
-       e.attachEvent('on' + event, callback);
+   if (el.attachEvent) {
+       el.attachEvent('on' + event, callback);
+   } else {
+     el['on'+event] = callback;
+   }
+  }
+  
+// 删除绑定的事件
+  var deleteEvent = function (el,event,callback) {
+
+    // 非IE浏览器  IE>=8
+    if (el.removeEventListener) {
+       el.removeEventListener(event, callback, false);
+    }
+    // IE浏览器, IE<8
+   if (el.detachEvent) {
+       el.detachEvent('on' + event, callback);
+   }else {
+     el['on'+event] = null;
    }
   }
 
@@ -67,11 +83,32 @@
          return arr.join("&");
      }
 
+    //解析查询字符串，并返回包含所有参数的一个对象
+   var getQueryStringArgs = function() {
+        var qs = (location.search.length > 0 ? location.search.substring(1): ''),
+          args = {},
+          items = qs.length?qs.split('&'):[],
+          name = null,
+          value =null,
+          arr = [];
+
+          items.forEach(function(item,index) {
+            arr= item.split('=');
+            name = decodeURIComponent(arr[0]);
+            value = decodeURIComponent(arr[1]);
+            if (name.length) {
+              args[name] = value;
+            }
+          });
+          return args;
+   }
+
 obj.libs ={
   author: 'wmhello',
   version: '0.0.1',
   getId:getId,
   addEvent: addEvent,
-  ajax: ajax
+  ajax: ajax,
+  getQueryStringArgs: getQueryStringArgs
 };
 })(this)
