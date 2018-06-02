@@ -1,9 +1,63 @@
 !(function(obj) {
   // 获取元素
+  var $ = function (selector){
+    var type = selector.substring(0, 1);
+    if (type === '#') {
+        if (document.querySelecotor) return document.querySelector(selector)
+            return document.getElementById(selector.substring(1))
 
-  var getId = function (id) {
-    return document.getElementById(id) || document;
+    }else if (type === '.') {
+        if (document.querySelecotorAll) return document.querySelectorAll(selector)
+            return document.getElementsByClassName(selector.substring(1))
+    }else{
+        return document['querySelectorAll' ? 'querySelectorAll':'getElementsByTagName'](selector)
+    }
   }
+/*检测类名*/
+var hasClass = function (ele, name) {
+    return ele.className.match(new RegExp('(\\s|^)' + name + '(\\s|$)'));
+}
+
+/*添加类名*/
+var addClass = function (ele, name) {
+    if (!this.hasClass(ele, name)) ele.className += " " + name;
+}
+
+/*删除类名*/
+var removeClass = function (ele, name) {
+    if (this.hasClass(ele, name)) {
+        var reg = new RegExp('(\\s|^)' + name + '(\\s|$)');
+        ele.className = ele.className.replace(reg, '');
+    }
+}
+
+/*替换类名*/
+var replaceClass = function(ele, newName, oldName) {
+    this.removeClass(ele, oldName);
+    this.addClass(ele, newName);
+}
+
+/*获取兄弟节点*/
+var siblings = function (ele) {
+    console.log(ele.parentNode)
+    var chid = ele.parentNode.children,eleMatch = [];
+    for(var i = 0, len = chid.length; i < len; i ++){
+        if(chid[i] != ele){
+            eleMatch.push(chid[i]);
+        }
+    }
+    return eleMatch;
+}
+
+/*获取行间样式属性*/
+var getByStyle = function (obj,name){
+    if(obj.currentStyle){
+        return  obj.currentStyle[name];
+    }else{
+        return  getComputedStyle(obj,false)[name];
+    }
+}
+
   // 事件绑定
   var addEvent = function (el,event,callback) {
     // 非IE浏览器  IE>=8
@@ -17,7 +71,7 @@
      el['on'+event] = callback;
    }
   }
-  
+
 // 删除绑定的事件
   var deleteEvent = function (el,event,callback) {
 
@@ -102,13 +156,20 @@
           });
           return args;
    }
-
-obj.libs ={
-  author: 'wmhello',
-  version: '0.0.1',
-  getId:getId,
+   if (! obj.libs) {
+     obj.libs = {
+       version:'0.0.1',
+     }
+   }
+ obj.libs =Object.assign(obj.libs,{
+  $: $,
+  hasClass: hasClass,
+  addClass: addClass,
+  removeClass: removeClass,
+  replaceClass: replaceClass,
+  siblings: siblings,
+  getByStyle: getByStyle,
   addEvent: addEvent,
-  ajax: ajax,
   getQueryStringArgs: getQueryStringArgs
-};
+  });
 })(this)
