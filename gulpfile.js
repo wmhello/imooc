@@ -8,21 +8,19 @@ var refresh = browserSync.reload({ stream: true });
 var src = {
     scss: './**/*.scss',
     customCss: './**/*.css',
-    css: './public/css',
     html: './**/*.html',
     js: './**/*.js',
 };
 
 // Static Server + watching scss/html files
-gulp.task('serve', ['scss', 'css'], function() {
+gulp.task('serve', function() {
     browserSync.init({
         // server: './app'
          //proxy: "http://ubuy.test/user/address"
-        server: './app'
+        server: './javascript'
     });
 
-    gulp.watch(src.scss, ['scss']);
-    gulp.watch(src.customCss, ['css']);
+    gulp.watch(src.customCss).on('change', reload);
     gulp.watch(src.html).on('change', reload);
     gulp.watch(src.js).on('change', reload);
 });
@@ -37,11 +35,11 @@ gulp.task('scss', function() {
         .pipe(reload({ stream: true }));
 });
 
-gulp.task('css', function() {
-    return gulp
-        .src(src.customCss)
-        .pipe(gulp.dest(src.css))
-        .pipe(reload({ stream: true }));
-});
+// gulp.task('css', function() {
+//     return gulp
+//         .src(src.customCss)
+//         .pipe(gulp.dest(src.css))
+//         .pipe(reload({ stream: true }));
+// });
 
 gulp.task('default', ['serve']);

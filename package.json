@@ -11,9 +11,9 @@
   "devDependencies": {
     "browser-sync": "^2.2.0",
     "gulp": "^3.8.11",
+    "gulp-clean-css": "^3.9.3",
     "gulp-sass": "^2.2.0",
-    "node-sass": "^4.8.3",
-    "gulp-clean-css": "^3.9.3"
+    "node-sass": "^4.9.0"
   },
   "dependencies": {}
 }
